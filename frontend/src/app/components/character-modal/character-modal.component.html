@@ -1,0 +1,46 @@
+<!-- Fondo oscuro con desenfoque y opacidad -->
+<div class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50" (click)="onClose()">
+
+  <!-- Modal centrado con modo oscuro y sin scroll interno -->
+  <div class="bg-black text-[#a6cccc] rounded-xl shadow-2xl max-w-3xl w-full mx-4 overflow-hidden" (click)="$event.stopPropagation()">
+
+    <!-- Encabezado con fondo azul y botón de cerrar -->
+    <div class="flex items-center justify-between bg-[#043c6e] px-4 py-3">
+      <h2 class="text-2xl font-bold text-[#a6cccc] text-center flex-1">{{ character?.name }}</h2>
+      <button (click)="onClose()"
+              class="ml-auto text-[#a6cccc] bg-[#043c6e] hover:text-white text-2xl font-bold px-2 rounded focus:outline-none">
+        &times;
+      </button>
+    </div>
+
+    <!-- Contenido principal con imagen + datos -->
+    <div class="p-6 text-[#ebe480]" >
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        <!-- Imagen del personaje -->
+        <img [src]="character?.image"
+             alt="{{ character?.name }}"
+             class="w-32 max-h-60 object-cover rounded-xl mx-auto" />
+
+        <!-- Datos del personaje -->
+        <div class="space-y-2">
+          <p><strong>Estado:</strong> {{ character?.status }}</p>
+          <p><strong>Especie:</strong> {{ character?.species }}</p>
+          <p><strong>Género:</strong> {{ character?.gender }}</p>
+          <p><strong>Origen:</strong> {{ character?.origin?.name }}</p>
+        </div>
+      </div>
+
+      <!-- Episodios -->
+      <div class="mt-6">
+        <h3 class="text-xl font-semibold mb-2">Episodios:</h3>
+        <ul class="list-disc list-inside space-y-1 pr-2 max-h-40 overflow-y-auto">
+          <li *ngFor="let ep of episodeDetails">
+            {{ ep.episode }} - {{ ep.name }} ({{ ep.air_date }})
+          </li>
+        </ul>
+      </div>
+
+    </div>
+</div>
+
+

@@ -1,11 +1,63 @@
-<h2>Personajes de Rick and Morty</h2>
+<div class="max-w-6xl mx-auto px-4 py-6 text-texas bg-black min-h-screen">
+  <!-- TÍTULO -->
+  <h1 class="text-2xl font-bold mb-4 text-center text-callagreen">Rick &amp; Morty - Buscador</h1>
 
-<div *ngIf="characters.length === 0">Cargando personajes...</div>
+  <!-- BÚSQUEDA -->
+  <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+    <input [(ngModel)]="searchName"
+           (keyup.enter)="searchCharacters()"
+           placeholder="Buscar..."
+           class="w-full sm:w-80 px-4 py-2 border border-mystery bg-transparent text-white rounded-md focus:ring-2 focus:ring-kiwigreen placeholder-gray-400" />
+    <button (click)="searchCharacters()"
+            class="px-6 py-2  hover:bg-endo text-black font-semibold rounded-md shadow"
+            style="background-color: #60a85f; color: #ebe480; ">
+            
+      Buscar
+    </button>
+  </div>
 
-<div class="grid">
-  <div class="card" *ngFor="let character of characters">
-    <img [src]="character.image" alt="{{ character.name }}" />
-    <h3>{{ character.name }}</h3>
-    <p>{{ character.status }} - {{ character.species }}</p>
+  <!-- ERROR -->
+  <div *ngIf="error" class="text-red-400 text-center mb-4">
+    {{ error }}
+  </div>
+
+  <!-- GRILLA DE PERSONAJES -->
+  <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    <div *ngFor="let character of characters"
+         (click)="openCharacterModal(character)"
+         class="cursor-pointer bg-tardis text-texas rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+      <img [src]="character.image"
+           alt="{{ character.name }}"
+           class="w-full h-64 object-cover" />
+      <div class="p-4">
+        <h3 class="text-lg font-semibold text-center">{{ character.name }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGINACIÓN -->
+  <div *ngIf="characters.length > 0 && totalPages > 1" class="w-full flex justify-center mt-6">
+    <div class="flex items-center space-x-4">
+      <button (click)="goToPage(currentPage - 1)"
+              [disabled]="currentPage === 1"
+              class="px-4 py-2 bg-mystery hover:bg-mystery/80 text-black font-semibold disabled:opacity-50 rounded"
+               style="background-color: #a6cccc; color: #043c6e; ">
+        Anterior
+      </button>
+      <span class="text-white font-medium">
+        Página {{ currentPage }} de {{ totalPages }}
+      </span>
+      <button (click)="goToPage(currentPage + 1)"
+              [disabled]="currentPage === totalPages"
+              class="px-4 py-2 bg-mystery hover:bg-mystery/80 text-black font-semibold disabled:opacity-50 rounded"
+               style="background-color: #a6cccc; color: #043c6e; ">
+        Siguiente
+      </button>
+    </div>
   </div>
 </div>
+
+<!-- MODAL -->
+<app-character-modal *ngIf="showModal"
+                     [character]="selectedCharacter"
+                     (close)="closeModal()"></app-character-modal>
