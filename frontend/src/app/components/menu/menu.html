@@ -1,0 +1,50 @@
+<header class="bg-[#043c6e] text-[#a6cccc] py-4 shadow-md">
+  <div class="max-w-6xl mx-auto px-4 flex items-center justify-between">
+    <h1 class="text-2xl font-bold">Rick &amp; Morty Explorer</h1>
+
+    <nav class="space-x-4">
+      <a
+        routerLink="/"
+        routerLinkActive="underline"
+        class="hover:text-[#88e23b] transition"
+      >
+        Inicio
+      </a>
+
+      <!-- Mostrar si NO hay sesión -->
+      <ng-container *ngIf="!(sessionActive$ | async)">
+        <a
+          routerLink="/login"
+          routerLinkActive="underline"
+          class="hover:text-[#88e23b] transition"
+        >
+          Login
+        </a>
+        <a
+          routerLink="/register"
+          routerLinkActive="underline"
+          class="hover:text-[#88e23b] transition"
+        >
+          Registro
+        </a>
+      </ng-container>
+
+      <!-- Mostrar si HAY sesión -->
+      <ng-container *ngIf="sessionActive$ | async">
+        <a
+          routerLink="/dashboard"
+          routerLinkActive="underline"
+          class="hover:text-[#88e23b] transition"
+        >
+          Dashboard
+        </a>
+        <a
+          (click)="logout()"
+          class="cursor-pointer hover:text-[#88e23b] transition"
+        >
+          Cerrar sesión
+        </a>
+      </ng-container>
+    </nav>
+  </div>
+</header>

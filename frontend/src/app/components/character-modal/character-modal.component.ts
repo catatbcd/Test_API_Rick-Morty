@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { CharacterService } from '../../services/character.service';
 
 @Component({
@@ -13,9 +14,17 @@ export class CharacterModalComponent {
   @Input() character: any;
   @Output() close = new EventEmitter<void>();
   episodeDetails: any[] = [];
-  constructor(private characterService: CharacterService) { }
+  sessionActive = false;
+  
+  constructor(
+    private characterService: CharacterService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    const token = localStorage.getItem('token'); // o como gestiones la sesión
+  this.sessionActive = !!token;
+
     if (this.character?.episode?.length) {
       this.characterService.getEpisodes(this.character.episode).subscribe((episodes) => {
         this.episodeDetails = episodes;
@@ -25,5 +34,9 @@ export class CharacterModalComponent {
 
   onClose() {
     this.close.emit();
+  }
+  importar() {
+    console.log('Redirigiendo a importar...');
+    this.router.navigate(['/importar']);
   }
 }

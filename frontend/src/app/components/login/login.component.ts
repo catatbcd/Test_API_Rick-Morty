@@ -25,6 +25,12 @@ export class LoginComponent {
       password: ['', Validators.required]
     });
   }
+   ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.router.navigate(['/dashboard']);
+    }
+  }
 
   submit() {
     if (this.form.invalid) return;
@@ -32,7 +38,10 @@ export class LoginComponent {
     const { email, password } = this.form.value as { email: string; password: string };
 
     this.auth.login({ email, password }).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: (res) => {
+  localStorage.setItem('token', 'true'); // o res.token si lo tienes
+  this.router.navigate(['/dashboard']);
+},
       error: err => {
         this.error = err.error?.error || 'Error al iniciar sesión';
       }

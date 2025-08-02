@@ -27,6 +27,15 @@
           <p><strong>Especie:</strong> {{ character?.species }}</p>
           <p><strong>Género:</strong> {{ character?.gender }}</p>
           <p><strong>Origen:</strong> {{ character?.origin?.name }}</p>
+          <!-- Botón "Importar", solo si hay sesión -->
+<div *ngIf="sessionActive" class="px-6 pb-6 flex justify-end">
+  <button
+    (click)="importar()"
+    class="bg-[#0d2238] hover:bg-[#88e23b] text-white font-semibold px-4 py-2 rounded transition">
+    Importar
+  </button>
+</div>
+
         </div>
       </div>
 

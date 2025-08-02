@@ -27,7 +27,11 @@ export class RegisterComponent {
       password_confirmation: ['', Validators.required]
     });
   }
-
+ ngOnInit(): void {
+   if (this.auth.isLoggedIn()) {
+  this.router.navigate(['/dashboard']);
+}
+  }
   submit() {
     if (this.form.invalid || this.form.value.password !== this.form.value.password_confirmation) {
       this.error = 'Verifica los datos y que las contraseñas coincidan.';
